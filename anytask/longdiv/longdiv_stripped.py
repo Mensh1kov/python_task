@@ -1,4 +1,4 @@
-def two_dim_array_to_string(lines):
+def two_dim_arr_to_str(lines):
     string = ""
     for line in lines:
         for char in line:
@@ -9,7 +9,7 @@ def two_dim_array_to_string(lines):
 
 def long_division(dividend, divider):
     lines = [list(str(dividend) + "|" + str(divider))]
-    quotient = dividend // divider
+    quotient = str(dividend // divider)
     incomplete_divisible = ""
     left_indent = ""
     index_digit_of_quotient = 0
@@ -20,8 +20,8 @@ def long_division(dividend, divider):
                 index_digit_of_quotient += 1
             continue
         else:
-            deductible = divider \
-                         * int(str(quotient)[index_digit_of_quotient])
+            digit_of_quotient = int(quotient[index_digit_of_quotient])
+            deductible = str(divider * digit_of_quotient)
             if deductible == 0:
                 index_digit_of_quotient += 1
                 continue
@@ -30,23 +30,21 @@ def long_division(dividend, divider):
                     incomplete_divisible = incomplete_divisible[1:]
                     left_indent += " "
                 lines.append(list(left_indent + incomplete_divisible))
-            difference = int(incomplete_divisible) - deductible
-            left_indent += (len(incomplete_divisible)
-                            - len(str(deductible))) * " "
-            lines.append(list(left_indent + str(deductible)))
-            left_indent += (len(str(deductible))
-                            - len(str(difference))) * " "
+            difference = str(int(incomplete_divisible) - int(deductible))
+            len_deductible = len(deductible)
+            left_indent += (len(incomplete_divisible) - len_deductible) * " "
+            lines.append(list(left_indent + deductible))
+            left_indent += (len_deductible - len(difference)) * " "
             index_digit_of_quotient += 1
-            incomplete_divisible = str(difference)
-    if int(incomplete_divisible) == 0:
-        lines.append(list(left_indent + str(int(incomplete_divisible))))
-    else:
-        lines.append(list((len(incomplete_divisible)
-                           - len(str(int(incomplete_divisible)))) * " "
-                          + left_indent + str(int(incomplete_divisible))))
-    lines[1] += list((len(str(dividend)) - len(lines[1]))
-                     * " " + "|" + str(quotient))
-    return two_dim_array_to_string(lines)
+            incomplete_divisible = difference
+    remainder_division = str(int(incomplete_divisible))
+    if remainder_division != "0":
+        count_spase = len(incomplete_divisible) - len(remainder_division)
+        left_indent += count_spase * " "
+    lines.append(list(left_indent + remainder_division))
+    count_spase = len(str(dividend)) - len(lines[1])
+    lines[1] += list(count_spase * " " + "|" + quotient)
+    return two_dim_arr_to_str(lines)
 
 
 def main():
